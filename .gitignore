@@ -1,0 +1,8 @@
+node_modules
+
+/.cache
+frontend/build
+.env
+
+.vercel
+.DS_Store

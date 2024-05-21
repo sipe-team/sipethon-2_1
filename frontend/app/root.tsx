@@ -22,6 +22,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <p>{bears}</p>
+        <p>TEST</p>
         <Button onClick={() => increase(1)}>INCREASE</Button>
         <ScrollRestoration />
         <Scripts />
