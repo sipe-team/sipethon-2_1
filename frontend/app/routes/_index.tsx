@@ -1,24 +1,22 @@
 import type { MetaFunction } from "@remix-run/node";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useBearStore } from "../stores/useBearStore";
+import { Button } from "../components/Button";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Siperfume" },
+    { name: "description", content: "Welcome to Siperfume" },
   ];
 };
 
-const queryClient = new QueryClient();
-
 export default function Index() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-        <h1>Siperfume</h1>
-      </div>
+  const { bears, increase } = useBearStore();
 
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+  return (
+    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
+      <h1>Siperfume</h1>
+      <p>{bears}</p>
+      <Button onClick={() => increase(1)}>INCREASE</Button>
+    </div>
   );
 }

@@ -5,12 +5,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { useBearStore } from "./stores/useBearStore";
-import { Button } from "./components/Button";
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { bears, increase } = useBearStore();
-
   return (
     <html lang="ko">
       <head>
@@ -21,9 +20,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
-        <p>{bears}</p>
-        <p>FRONTMAIN</p>
-        <Button onClick={() => increase(1)}>INCREASE</Button>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -32,5 +28,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // With SSR, we usually want to set some default staleTime
+            // above 0 to avoid refetching immediately on the client
+            staleTime: 60 * 1000,
+          },
+        },
+      })
+  );
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Outlet />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 }
