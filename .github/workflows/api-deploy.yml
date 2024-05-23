@@ -1,0 +1,51 @@
+name: api deploy
+
+on:
+  push:
+    branches:
+      - feature/api-cicd
+      - api-main
+    paths:
+      - backend-api/**
+
+env:
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  DOCKERHUB_API_IMAGE_NAME: ${{ secrets.DOCKERHUB_API_IMAGE_NAME }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./backend-api
+
+    strategy:
+      matrix:
+        kotlin-version: [ "1.9.23" ]
+        java-version: [ "17" ]
+
+    steps:
+      - name: Check Out The Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Kotlin
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java-version }}
+          kotlin-version: ${{ matrix.kotlin-version }}
+          distribution: 'corretto'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
+      - name: Docker build and push
+        run: |
+          docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+          docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_API_IMAGE_NAME:latest .
+          docker push $DOCKERHUB_USERNAME/$DOCKERHUB_API_IMAGE_NAME:latest
+          echo "##########(이미지 push 완료)##########"
