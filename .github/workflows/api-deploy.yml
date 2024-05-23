@@ -49,3 +49,23 @@ jobs:
           docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_API_IMAGE_NAME:latest .
           docker push $DOCKERHUB_USERNAME/$DOCKERHUB_API_IMAGE_NAME:latest
           echo "##########(이미지 push 완료)##########"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    name: Deploy
+    steps:
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd siperfume-api
+
+            sudo docker rm -f $(sudo docker ps -a -q)
+            sudo docker pull $DOCKERHUB_USERNAME/$DOCKERHUB_API_IMAGE_NAME:latest
+            sudo docker-compose up --force-recreate --remove-orphans -d
+            sudo docker image prune -f
