@@ -65,7 +65,7 @@ jobs:
           script: |
             cd siperfume-api
 
+            sudo docker-compose pull
             sudo docker rm -f $(sudo docker ps -a -q)
-            sudo docker pull $DOCKERHUB_USERNAME/$DOCKERHUB_API_IMAGE_NAME:latest
             sudo docker-compose up --force-recreate --remove-orphans -d
             sudo docker image prune -f
