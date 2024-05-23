@@ -5,8 +5,8 @@ on:
     branches:
       - feature/api-cicd
       - api-main
-    paths:
-      - backend-api/**
+#    paths:
+#      - backend-api/**
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
