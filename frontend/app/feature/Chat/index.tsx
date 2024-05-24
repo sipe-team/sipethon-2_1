@@ -16,8 +16,8 @@ export const Chat = (props: ChatProps) => {
       <Avatar
         src={
           isMe
-            ? `/app/assets/user${userType}.png`
-            : `/app/assets/cat${catType}.png`
+            ? `../../assets/user${userType}.png`
+            : `../../assets/cat${catType}.png`
         }
         alt={isMe ? "사용자 이미지" : "AI 이미지"}
       />
