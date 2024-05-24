@@ -13,11 +13,10 @@ from openai import OpenAI
 
 class QAManager:
 
-    def __init__(self, db_directory="../db"):
+    def __init__(self):
         """
         QAService 클래스 초기화
         """
-        self.db_directory = db_directory
         self.embedding = OpenAIEmbeddings()
         self.api_key = os.environ.get("OPENAI_QA_API_KEY")
 
@@ -66,10 +65,10 @@ class QAManager:
     async def qacall(self, query):
         """
         주어진 쿼리에 대해 QA 체인을 실행하고 응답을 처리한 후 그 결과를 반환합니다.
-        
+
         매개변수:
         - query: 사용자로부터 받은 쿼리 문자열
-        
+
         반환값:
         - 처리된 응답 데이터와 소스 문서 정보가 담긴 JSON 객체
         """
@@ -114,27 +113,27 @@ class QAManager:
             presence_penalty=0,
         )
         return response.choices[0].message.content
-    
+
     def translate(self, data):
         """
         주어진 데이터를 한국어로 번역합니다.
-        
+
         매개변수:
         - data: 번역할 데이터
-        
+
         반환값:
         - 번역된 데이터
         """
         client = OpenAI(api_key=self.api_key)
         response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {
-            "role": "system",
-            "content": [
+            model="gpt-4o",
+            messages=[
                 {
-                "type": "text",
-                "text": """
+                    "role": "system",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": """
                     너는 지금부터 전문 번역가야.
                     
                     [규칙]
@@ -146,68 +145,70 @@ class QAManager:
                         - ex) tobacco: 토바코
                     - imageUrl은 번역 안 해도 돼
                     - 무조건 JSON으로 답해
-                """
-                }
-            ]
-            },
-            {
-            "role": "user",
-            "content": [{
-                "type": "text",
-                "text": json.dumps(data),
-            }]
-            }
-        ],
-        response_format={ "type": "json_object"},
-        temperature=0,
-        max_tokens=256,
-        top_p=0,
-        frequency_penalty=0,
-        presence_penalty=0
+                """,
+                        }
+                    ],
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": json.dumps(data),
+                        }
+                    ],
+                },
+            ],
+            response_format={"type": "json_object"},
+            temperature=0,
+            max_tokens=256,
+            top_p=0,
+            frequency_penalty=0,
+            presence_penalty=0,
         )
         return json.loads(response.choices[0].message.content)
-    
+
     def summary(self, data):
         client = OpenAI(api_key=self.api_key)
         response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {
-            "role": "system",
-            "content": [
+            model="gpt-4o",
+            messages=[
                 {
-                "type": "text",
-                "text": """
+                    "role": "system",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": """
                     너는 지금부터 전문 요약가야. 받은 데이터를 요약해서 돌려줘.
                     
                     [규칙]
                     - 입력으로 주어진 맥락들을 요약해.
                     - 무조건 문자열로만 요약해.
-                """
-                }
-            ]
-            },
-            *data
-        ],
-        temperature=0,
-        max_tokens=256,
-        top_p=0,
-        frequency_penalty=0,
-        presence_penalty=0
+                """,
+                        }
+                    ],
+                },
+                *data,
+            ],
+            temperature=0,
+            max_tokens=256,
+            top_p=0,
+            frequency_penalty=0,
+            presence_penalty=0,
         )
         return response.choices[0].message.content
-  
+
     def summary_and_expect(self, data):
         client = OpenAI(api_key=self.api_key)
         response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {
-            "role": "system",
-            "content": [
+            model="gpt-4o",
+            messages=[
                 {
-                "type": "text",
-                "text": """
+                    "role": "system",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": """
                     너는 지금부터 전문 요약가야. 받은 데이터를 요약해서 돌려줘.
                     
                     [규칙]
@@ -217,35 +218,35 @@ class QAManager:
                     - 사용자가 원하는 향수 재료를 요약해.
                     - 무조건 JSON으로 답해.
                     - 응답 형태 예시대로만 답해. { "atmosphere": "향수를 뿌렸을 때 느껴질 수 있는 분위기", "ingredients": ["사용자가 원하는 향수 재료"] }
-                """
-                }
-            ]
-            },
-            *data
-        ],
-        response_format={ "type": "json_object"},
-        temperature=0,
-        max_tokens=200,
-        top_p=0,
-        frequency_penalty=0,
-        presence_penalty=0
+                """,
+                        }
+                    ],
+                },
+                *data,
+            ],
+            response_format={"type": "json_object"},
+            temperature=0,
+            max_tokens=200,
+            top_p=0,
+            frequency_penalty=0,
+            presence_penalty=0,
         )
         return json.loads(response.choices[0].message.content)
 
     @staticmethod
     def _parse_content_to_json(content):
-        lines = content.split('\n')
+        lines = content.split("\n")
         # 결과를 저장할 딕셔너리 초기화
         result = {}
         for line in lines:
             # 각 줄을 key와 value로 분리
             try:
-              key, value = line.split(':', 1)  # 최대 1번만 분리
+                key, value = line.split(":", 1)  # 최대 1번만 분리
             except:
-              result["description"] += line[0]
+                result["description"] += line[0]
             if key.strip() == "notes":
-                result[key.strip()] = value.strip().split(', ')
+                result[key.strip()] = value.strip().split(", ")
             # 결과 딕셔너리에 추가
-            else :
-              result[key.strip()] = value.strip()
+            else:
+                result[key.strip()] = value.strip()
         return result

@@ -26,30 +26,6 @@ async def chat_endpoint(data: List[ChatRequestDto]):
     return result
 
 
-#     if len(result) == 10:
-#         await chat_summery(data)
-#
-#     return result
-#
-#
-# def chat_summery(data: List[ChatRequestDto]):
-#     data -> summary output= a
-#     print(data)
-#     return None
-#
-#
-#     a = generate_image_endpoint("a")
-#     b = analyze_perfume_endpoint("a")
-#     response_params = {"image_url": "a", "perfume": "a"}
-#     db.insert(response_params)
-#
-# def get_result(data: List[ChatRequestDto]):
-#
-#     if db:
-#
-#     return json
-
-
 @app.post("/chat/search")
 async def analyze_perfume_endpoint(data: PerfumeRequestDto):
     result = await qa_manager.qacall(data.query)
@@ -57,10 +33,11 @@ async def analyze_perfume_endpoint(data: PerfumeRequestDto):
 
 
 @app.post("/chat/generate-image")
-async def generate_image_endpoint(text: str):
+async def generate_image_endpoint(data: List[ChatRequestDto]):
     manager = Text2ImageManager()
-    result = manager.generate_image_url(text)
+    result = manager.generate_image_url(data)
     return {"image_url": result}
+
 
 @app.post("/chat/summary")
 async def summary_endpoint(data: List[ChatRequestDto]):
