@@ -9,6 +9,9 @@ import { Answer } from "~/feature/Answer";
 import { Chat } from "~/feature/Chat";
 import { answerContainer, chatContainer, layout } from "~/styles/chat-page.css";
 
+const userTypes = [1, 2, 1, 2, 1, 2, 1];
+const catTypes = [1, 2, 3, 4, 5, 6, 7];
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Chat | Siperfume" },
@@ -70,10 +73,23 @@ export default function ChatPage() {
       <div className={chatContainer} ref={containerRef}>
         {messages.map((message, index) => {
           if (message.role === "assistant") {
-            return <Chat key={message.content + index}>{message.content}</Chat>;
+            return (
+              <Chat
+                userType={userTypes[index % 7]}
+                catType={catTypes[index % 7]}
+                key={message.content + index}
+              >
+                {message.content}
+              </Chat>
+            );
           }
           return (
-            <Chat isMe key={message.content + index}>
+            <Chat
+              isMe
+              userType={userTypes[index % 7]}
+              catType={catTypes[index % 7]}
+              key={message.content + index}
+            >
               {message.content}
             </Chat>
           );
