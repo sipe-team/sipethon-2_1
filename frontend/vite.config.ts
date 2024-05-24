@@ -9,10 +9,7 @@ installGlobals();
 
 export default defineConfig({
   plugins: [
-    remix({
-      presets: [vercelPreset()],
-      ssr: false,
-    }),
+    remix({ presets: [vercelPreset()] }),
     vanillaExtractPlugin(),
     tsconfigPaths(),
   ],
