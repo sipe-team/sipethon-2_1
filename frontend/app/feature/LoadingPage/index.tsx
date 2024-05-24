@@ -19,14 +19,12 @@ export const LoadingPage = () => {
   const dots = ".".repeat(dot);
 
   return (
-    <>
-      <div className={style.container}>
-        <ImageContainer src={LoadingImage} alt="thinking" m="150px auto 20px" />
-        <h2 className={style.mainText}>
-          {MAIN_MESSGAE}
-          {dots}
-        </h2>
-      </div>
-    </>
+    <div className={style.container}>
+      <ImageContainer src={LoadingImage} alt="thinking" m="150px auto 20px" />
+      <h2 className={style.mainText}>
+        {MAIN_MESSGAE}
+        {dots}
+      </h2>
+    </div>
   );
 };
