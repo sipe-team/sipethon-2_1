@@ -49,20 +49,17 @@ class QAManager:
 
     def process_response(self, data):
         page_contents = [item.dict().get("page_content") for item in data]
-        print(page_contents)
 
         # 모든 데이터에 대해 변환 수행
         parsed_data = [
             self._parse_content_to_json(content) for content in page_contents
         ]
 
-        print(parsed_data)
-
         # JSON 형태로 출력
         # json_data = json.dumps(parsed_data, ensure_ascii=False)
         return parsed_data
 
-    async def qacall(self, query):
+    async def qacall(self, data):
         """
         주어진 쿼리에 대해 QA 체인을 실행하고 응답을 처리한 후 그 결과를 반환합니다.
 
@@ -72,9 +69,14 @@ class QAManager:
         반환값:
         - 처리된 응답 데이터와 소스 문서 정보가 담긴 JSON 객체
         """
+        
+        query = self.summary(data)
+        
         data = self.similarity_search(query)
 
         response = self.process_response(data)[0]
+
+        print(response)
 
         _response = self.translate(response)
 
@@ -145,26 +147,24 @@ class QAManager:
                         - ex) tobacco: 토바코
                     - imageUrl은 번역 안 해도 돼
                     - 무조건 JSON으로 답해
-                """,
-                        }
-                    ],
-                },
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": json.dumps(data),
-                        }
-                    ],
-                },
-            ],
-            response_format={"type": "json_object"},
-            temperature=0,
-            max_tokens=256,
-            top_p=0,
-            frequency_penalty=0,
-            presence_penalty=0,
+                """
+                }
+            ]
+            },
+            {
+            "role": "user",
+            "content": [{
+                "type": "text",
+                "text": json.dumps(data),
+            }]
+            }
+        ],
+        response_format={ "type": "json_object"},
+        temperature=0,
+        max_tokens=500,
+        top_p=0,
+        frequency_penalty=0,
+        presence_penalty=0
         )
         return json.loads(response.choices[0].message.content)
 

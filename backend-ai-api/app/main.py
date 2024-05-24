@@ -27,8 +27,8 @@ async def chat_endpoint(data: List[ChatRequestDto]):
 
 
 @app.post("/chat/search")
-async def analyze_perfume_endpoint(data: PerfumeRequestDto):
-    result = await qa_manager.qacall(data.query)
+async def analyze_perfume_endpoint(data: List[ChatRequestDto]):
+    result = await qa_manager.qacall(data)
     return result
 
 
