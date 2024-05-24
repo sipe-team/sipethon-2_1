@@ -14,11 +14,7 @@ export const Chat = (props: ChatProps) => {
       className={[styles.container({ isMe }), props.className].join(" ")}
     >
       <Avatar
-        src={
-          isMe
-            ? `../../assets/user${userType}.png`
-            : `../../assets/cat${catType}.png`
-        }
+        src={isMe ? `/images/user${userType}.png` : `/images/cat${catType}.png`}
         alt={isMe ? "사용자 이미지" : "AI 이미지"}
       />
       <Message direction={isMe ? "right" : "left"}>{children}</Message>
