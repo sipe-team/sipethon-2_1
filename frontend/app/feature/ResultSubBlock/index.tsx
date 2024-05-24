@@ -20,8 +20,9 @@ export const ResultSubBlock = (props: ResultSubBlockProps) => {
       <div>
         <p className={style.brandText}>{props.brand}</p>
         <p className={style.nameText}>{props.name}</p>
-        {/* <p>{props.description}</p> */}
         <p className={style.notesWrapper}>{props.notes.join(", ")}</p>
+        <hr className={style.divider} />
+        <p className={style.description}>{props.description}</p>
       </div>
     </Block>
   );
