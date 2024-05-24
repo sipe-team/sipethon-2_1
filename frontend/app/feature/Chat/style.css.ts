@@ -11,8 +11,11 @@ export const container = recipe({
     isMe: {
       true: {
         flexDirection: "row-reverse",
+        marginLeft: "20%",
       },
-      false: {},
+      false: {
+        marginRight: "20%",
+      },
     },
   },
 
