@@ -12,7 +12,7 @@ export const brandText = style({
   fontSize: 14,
   color: vars.colors.gray350,
   textAlign: "center",
-  fontWeight: "semibold",
+  fontWeight: 600,
   margin: "0 auto",
 });
 
@@ -20,7 +20,7 @@ export const nameText = style({
   fontSize: 18,
   color: vars.colors.gray150,
   textAlign: "center",
-  fontWeight: "semibold",
+  fontWeight: 600,
   margin: "0 auto 16px",
 });
 

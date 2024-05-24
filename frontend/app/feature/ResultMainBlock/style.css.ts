@@ -10,7 +10,7 @@ export const subText = style({
 
 export const noteWrapper = style({
   fontSize: 18,
-  fontWeight: "semibold",
+  fontWeight: 600,
   color: vars.colors.main2,
   textAlign: "center",
   display: "flex",
@@ -21,7 +21,7 @@ export const noteWrapper = style({
 export const noteItem = style({
   display: "flex",
   alignItems: "center",
-  fontWeight: "semibold",
+  fontWeight: 600,
   lineHeight: 1.4,
 
   ":after": {

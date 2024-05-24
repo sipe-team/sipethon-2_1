@@ -12,7 +12,7 @@ export const secondText = style({
   margin: "0 auto",
   fontSize: 20,
   color: vars.colors.gray100,
-  fontWeight: "semibold",
+  fontWeight: 600,
   textAlign: "center",
   marginBottom: 22,
   lineHeight: 1.4,

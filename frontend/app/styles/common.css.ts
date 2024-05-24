@@ -4,7 +4,7 @@ import { vars } from "./theme.css";
 export const mainText = style({
   fontSize: 20,
   color: vars.colors.main1,
-  fontWeight: "semibold",
+  fontWeight: 600,
   textAlign: "center",
   whiteSpace: "pre",
   display: "block",

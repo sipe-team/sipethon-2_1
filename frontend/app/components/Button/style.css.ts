@@ -5,7 +5,7 @@ export const button = style({
   backgroundColor: vars.colors.main1,
   fontSize: 18,
   borderRadius: 32,
-  fontWeight: "semibold",
+  fontWeight: 600,
   textAlign: "center",
   color: "white",
   height: 45,

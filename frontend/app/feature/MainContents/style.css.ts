@@ -9,7 +9,7 @@ export const container = style({
 export const mainText = style({
   fontSize: 20,
   color: vars.colors.gray100,
-  fontWeight: "semibold",
+  fontWeight: 600,
   textAlign: "center",
   whiteSpace: "pre",
   margin: "44px 0 12px",
