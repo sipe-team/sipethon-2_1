@@ -1,19 +1,21 @@
+
 from typing import Union
 from pydantic import BaseModel
 from fastapi import FastAPI, Request
 import json
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List, Union
 from motor.motor_asyncio import AsyncIOMotorClient
 from odmantic import AIOEngine
 import os
-
+from .service.qa_service import QAService
+from .data.setup_vector_database import setup_vector_database
 
 username = os.getenv("DB_USERNAME")
 password = os.getenv("DB_PASSWORD")
 host = os.getenv("DB_HOST")
 database_name = os.getenv("DB_NAME")
-port = 27017  
+port = os.getenv("DB_PORT")
 connection_string = f"mongodb://{username}:{password}@{host}:{port}/{database_name}?authSource=admin"
 
 client = AsyncIOMotorClient(connection_string)
@@ -27,6 +29,8 @@ class HistorysModel(BaseModel):
     user_id: str
     question: list
 
+
+setup_vector_database("db/faiss")
 app = FastAPI()
 
 @app.get("/")
@@ -76,8 +80,6 @@ async def get_result(request: Request):
             "testnote"
         ],
     image_url = "test_image_url"
-
-
     return {
         "message": "추천 결과 조회 성공",
         "data": {
@@ -88,3 +90,27 @@ async def get_result(request: Request):
             "imageUrl": image_url 
         }
     }
+  
+  
+@app.get("/items/{item_id}")
+def read_item(item_id: int, q: Union[str, None] = None):
+    return {"item_id": item_id, "q": q}
+
+qa_service = QAService()
+
+class PerfumeRequestDto(BaseModel):
+    query: str
+
+class ChatRequestDto(BaseModel):
+    role: str
+    content: str
+
+@app.post("/chat")
+async def chat_endpoint(data: List[ChatRequestDto]):
+    result = qa_service.conversation(data)
+    return result
+
+@app.post("/chat/search")
+async def analyze_perfume_endpoint(data: PerfumeRequestDto):
+    result = await qa_service.qacall(data.query)
+    return result
