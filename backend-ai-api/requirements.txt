@@ -2,5 +2,7 @@ fastapi
 pydantic
 uvicorn
 langchain[all]
-dotenv
+langchain_community
+langchain_openai
 openai
+faiss-cpu

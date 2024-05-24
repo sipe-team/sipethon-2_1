@@ -3,6 +3,7 @@ FROM python:3.11.9
 WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt
+COPY ./app/data/final_perfume_data.csv /code/app/data/final_perfume_data.csv
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
