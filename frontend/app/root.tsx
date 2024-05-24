@@ -8,6 +8,7 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
+import { themeClass } from "./styles/theme.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -18,7 +19,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className={themeClass}>
         {children}
         <ScrollRestoration />
         <Scripts />
