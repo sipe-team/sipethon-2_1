@@ -51,6 +51,6 @@ jobs:
             cd siperfume-ai-api
 
             sudo docker-compose pull
-            sudo docker rm -f $(sudo docker ps -a -q)
+            sudo docker-compose down
             sudo docker-compose up --force-recreate --remove-orphans -d
             sudo docker image prune -f
