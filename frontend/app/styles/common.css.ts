@@ -14,4 +14,5 @@ export const mainText = style({
 export const container = style({
   padding: "0 35px",
   boxSizing: "border-box",
+  width: "100%",
 });
