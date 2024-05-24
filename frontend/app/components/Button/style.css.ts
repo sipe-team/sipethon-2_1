@@ -2,9 +2,19 @@ import { style } from "@vanilla-extract/css";
 import { vars } from "~/styles/theme.css";
 
 export const button = style({
-  padding: "32px",
-  backgroundColor: vars.colors.main2,
-  fontSize: "24px",
-  borderRadius: "4px",
-  fontWeight: "bold",
+  backgroundColor: vars.colors.main1,
+  fontSize: 18,
+  borderRadius: 32,
+  fontWeight: "semibold",
+  textAlign: "center",
+  color: "white",
+  height: 45,
+  padding: "12px 0",
+  boxSizing: "border-box",
+  border: "none",
+  width: "100%",
+  maxWidth: 500,
+  margin: "0 auto",
+  display: "block",
+  cursor: "pointer",
 });

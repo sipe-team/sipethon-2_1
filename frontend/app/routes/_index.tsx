@@ -1,7 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Button } from "~/components/Button";
-import { Answer } from "~/feature/Answer";
-import { Chat } from "~/feature/Chat";
+import { Header } from "~/components/Header";
+import { MainContents } from "~/feature/MainContents";
 
 export const meta: MetaFunction = () => {
   return [
@@ -13,8 +12,8 @@ export const meta: MetaFunction = () => {
 export default function IndexPage() {
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Siperfume</h1>
-      <Button>안녕하세요</Button>
+      <Header />
+      <MainContents />
     </div>
   );
 }

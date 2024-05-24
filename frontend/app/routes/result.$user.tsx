@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useParams } from "@remix-run/react";
+import { Block } from "~/components/Block";
 
 export const meta: MetaFunction = () => {
   return [
@@ -13,6 +14,7 @@ export default function ResultPage() {
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>{user}를 위한 향수 추천</h1>
+      <Block>당신은 이런 재료를 아마 좋아할겁니다</Block>
     </div>
   );
 }
