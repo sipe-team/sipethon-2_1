@@ -61,3 +61,8 @@ async def generate_image_endpoint(text: str):
     manager = Text2ImageManager()
     result = manager.generate_image_url(text)
     return {"image_url": result}
+
+@app.post("/chat/summary")
+async def summary_endpoint(data: List[ChatRequestDto]):
+    result = qa_manager.summary_and_expect(data)
+    return result

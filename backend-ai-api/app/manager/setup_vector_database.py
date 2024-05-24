@@ -3,11 +3,14 @@ from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 CURRENT_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(CURRENT_DIR, "../data/")
 
 CSV_FILE_PATH = os.path.join(DATA_DIR, "final_perfume_data.csv")
-
 
 class SetupVectorDatabase:
     def __init__(self, db_directory: str):
