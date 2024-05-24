@@ -4,11 +4,20 @@ from .manager.lib import set_config
 from .manager.qa_manager import QAManager
 from .model.request_dto import PerfumeRequestDto, ChatRequestDto
 from .manager.text_to_image_manager import Text2ImageManager
+from fastapi.middleware.cors import CORSMiddleware
 
 set_config()
 app = FastAPI()
 qa_manager = QAManager()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
 
 @app.get("/")
 def read_root():
