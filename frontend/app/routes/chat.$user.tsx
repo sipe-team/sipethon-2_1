@@ -101,7 +101,10 @@ export default function ChatPage() {
             <Answer
               name="input"
               value={value}
+              isPending={isPending}
               onChange={(ev) => setValue(ev.target.value)}
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
             />
           </form>
         )}
