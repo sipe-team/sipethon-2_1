@@ -14,6 +14,7 @@ class Text2ImageManager:
     def generate_image_url(self, data: list):
         qa_manager = QAManager()
         text = qa_manager.summary(data)
+        print(text)
 
         response = self.client.images.generate(
             model="dall-e-3",
