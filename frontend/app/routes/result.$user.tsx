@@ -41,15 +41,15 @@ export default function ResultPage() {
     enabled: !!inputs,
     queryKey: ["result", request],
     queryFn: async () => {
-      const search = await fetch(`${API_URL}/chat/search`, request).then(
-        (res) => res.json()
-      );
-      const image = await fetch(`${API_URL}/chat/generate-image`, request).then(
-        (res) => res.json()
-      );
-      const summary = await fetch(`${API_URL}/chat/summary`, request).then(
-        (res) => res.json()
-      );
+      const req = [
+        fetch(`${API_URL}/chat/search`, request).then((res) => res.json()),
+        fetch(`${API_URL}/chat/generate-image`, request).then((res) =>
+          res.json()
+        ),
+        fetch(`${API_URL}/chat/summary`, request).then((res) => res.json()),
+      ];
+
+      const [search, image, summary] = await Promise.all(req);
 
       return {
         imageUrl: image.image_url,
