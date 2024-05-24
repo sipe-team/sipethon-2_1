@@ -1,5 +1,7 @@
 .idea
 venv
+
+secrets.json
 .env
 db/faiss
 __pycache__
