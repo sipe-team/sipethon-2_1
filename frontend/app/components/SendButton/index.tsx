@@ -4,7 +4,11 @@ import * as styles from "./style.css";
 type SendButtonProps = ComponentPropsWithoutRef<"button">;
 export const SendButton = (props: SendButtonProps) => {
   return (
-    <button {...props} className={[styles.button, props.className].join(" ")}>
+    <button
+      {...props}
+      className={[styles.button, props.className].join(" ")}
+      type="submit"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
