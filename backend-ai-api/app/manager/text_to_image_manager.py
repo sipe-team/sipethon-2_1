@@ -15,6 +15,14 @@ class Text2ImageManager:
         qa_manager = QAManager()
         text = qa_manager.summary(data)
 
+        print(text)
+        text = f"""
+            {text} 향수를 사용하는 사람을 그려
+            
+            - 현실과 가까운 실사 이미지
+            - 향수를 사용하는 사람이 이미지에 큰 비중을 가짐
+        """
+
         try:
             response = self.client.images.generate(
                 model="dall-e-3",
