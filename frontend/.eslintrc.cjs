@@ -22,7 +22,10 @@ module.exports = {
   ignorePatterns: ["!**/.server", "!**/.client"],
 
   // Base config
-  extends: ["eslint:recommended"],
+  extends: [
+    "eslint:recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+  ],
 
   overrides: [
     // React

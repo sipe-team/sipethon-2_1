@@ -10,6 +10,7 @@ export default defineConfig({
   plugins: [
     remix({
       presets: [vercelPreset()],
+      ssr: false,
     }),
     tsconfigPaths(),
   ],
