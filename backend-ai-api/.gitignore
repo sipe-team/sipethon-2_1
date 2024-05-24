@@ -1,2 +1,5 @@
 .idea
 venv
+.env
+db/faiss
+__pycache__
