@@ -13,6 +13,7 @@ export const mainText = style({
   textAlign: "center",
   whiteSpace: "pre",
   margin: "44px 0 12px",
+  lineHeight: 1.4,
 });
 
 export const subText = style({
@@ -21,4 +22,5 @@ export const subText = style({
   textAlign: "center",
   whiteSpace: "pre",
   marginBottom: 30,
+  lineHeight: 1.4,
 });
