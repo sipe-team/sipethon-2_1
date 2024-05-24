@@ -5,6 +5,8 @@ import { Header } from "~/components/Header";
 import { ImageContainer } from "~/components/ImageContainer";
 import { ResultMainBlock } from "~/feature/ResultMainBlock";
 import { ResultSubBlock } from "~/feature/ResultSubBlock";
+import * as style from "../styles/common.css";
+import { ResultText } from "~/feature/ResultText";
 
 const tempUrl =
   "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/82e91788-9673-4a3b-8f66-64e1e71b2367/dg3iqlf-45222abf-dab8-43b0-96dd-7a3fc13b35df.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzgyZTkxNzg4LTk2NzMtNGEzYi04ZjY2LTY0ZTFlNzFiMjM2N1wvZGczaXFsZi00NTIyMmFiZi1kYWI4LTQzYjAtOTZkZC03YTNmYzEzYjM1ZGYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.0HjKfcxZj7b97Gjm-x-l4owq4LGCTFp97woMhw4pbhE";
@@ -26,8 +28,9 @@ export const meta: MetaFunction = () => {
 export default function ResultPage() {
   const { user } = useParams();
   return (
-    <>
+    <div className={style.container}>
       <Header />
+      <ResultText message="시원하고 성숙한 느낌이 날 거예요" />
       <ImageContainer src={tempUrl} alt="result" />
       <ResultMainBlock />
       <ResultSubBlock
@@ -43,6 +46,6 @@ export default function ResultPage() {
       >
         향고와 새로 대화하기
       </Button>
-    </>
+    </div>
   );
 }

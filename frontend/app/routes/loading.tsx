@@ -9,10 +9,10 @@ const MAIN_MESSGAE = `좋아할 것 같은 향수
 
 const LoadingPage = () => {
   return (
-    <>
+    <div className={style.container}>
       <ImageContainer src={tempImage} alt="thinking" m="150px auto 20px" />
       <h2 className={style.mainText}>{MAIN_MESSGAE}</h2>
-    </>
+    </div>
   );
 };
 

@@ -10,3 +10,8 @@ export const mainText = style({
   display: "block",
   margin: "0 auto",
 });
+
+export const container = style({
+  padding: "0 35px",
+  boxSizing: "border-box",
+});
