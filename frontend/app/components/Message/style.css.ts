@@ -4,8 +4,10 @@ import { RecipeVariants, recipe } from "@vanilla-extract/recipes";
 export const message = recipe({
   base: {
     padding: "10px 14px",
+    margin: 0,
     fontSize: "14px",
     lineHeight: 1.4,
+    wordBreak: "break-word",
   },
 
   variants: {
