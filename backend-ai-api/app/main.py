@@ -1,116 +1,63 @@
+from typing import List, Union
+from fastapi import FastAPI
+from .manager.lib import set_config
+from .manager.qa_manager import QAManager
+from .model.request_dto import PerfumeRequestDto, ChatRequestDto
+from .manager.text_to_image_manager import Text2ImageManager
 
-from typing import Union
-from pydantic import BaseModel
-from fastapi import FastAPI, Request
-import json
-from pathlib import Path
-from typing import Optional, List, Union
-from motor.motor_asyncio import AsyncIOMotorClient
-from odmantic import AIOEngine
-import os
-from .service.qa_service import QAService
-from .data.setup_vector_database import setup_vector_database
-
-username = os.getenv("DB_USERNAME")
-password = os.getenv("DB_PASSWORD")
-host = os.getenv("DB_HOST")
-database_name = os.getenv("DB_NAME")
-port = os.getenv("DB_PORT")
-connection_string = f"mongodb://{username}:{password}@{host}:{port}/{database_name}?authSource=admin"
-
-client = AsyncIOMotorClient(connection_string)
-db = client[database_name]
-historys_collection = db.get_collection("historys")
-
-class HistorysModel(BaseModel):
-    def __init__(self, user_id, question):
-        self.user_id = user_id
-        self.question = question
-    user_id: str
-    question: list
-
-
-setup_vector_database("db/faiss")
+set_config()
 app = FastAPI()
+qa_manager = QAManager()
+
 
 @app.get("/")
-async def read_root():
-    return {"Hello": "World"} 
-
-class QuestionRequest(BaseModel):
-    question: str
+def read_root():
+    return {"Hello": "World"}
 
 
-@app.post("/api/questions")
-async def ask_question(request: Request):
-    user_uuid = request.headers.get("Authorization")
-    body = await request.body()
-    data = json.loads(body)
-    question = data.get("question")
-
-    historys_collection.insert_one(
-        {"user_id": user_uuid,
-          "question": question
-        }
-    )
-    
-    # TODO : Manager에서 데이터 받아오는 로직 구현
-    result = "테스트 result"
-
-    return {
-        "message": "사용자 질문 저장 성공",
-        "data": {
-            "result": result
-          }
-    }
-
-
-@app.get("/api/results")
-async def get_result(request: Request):
-    user_uuid = request.headers.get("Authorization")
-    
-    # TODO : Manager에서 데이터 받아오는 로직 구현
-    name = "testname"
-    brand = "testbrand"
-    description = "testdescription"
-    notes =  [
-            "testnote",
-            "testnote",
-            "testnote",
-            "testnote"
-        ],
-    image_url = "test_image_url"
-    return {
-        "message": "추천 결과 조회 성공",
-        "data": {
-            "name": name,
-            "brand": brand, 
-            "description": description,
-            "notes": notes,
-            "imageUrl": image_url 
-        }
-    }
-  
-  
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
-qa_service = QAService()
-
-class PerfumeRequestDto(BaseModel):
-    query: str
-
-class ChatRequestDto(BaseModel):
-    role: str
-    content: str
 
 @app.post("/chat")
 async def chat_endpoint(data: List[ChatRequestDto]):
-    result = qa_service.conversation(data)
+    result = qa_manager.conversation(data)
     return result
+
+
+#     if len(result) == 10:
+#         await chat_summery(data)
+#
+#     return result
+#
+#
+# def chat_summery(data: List[ChatRequestDto]):
+#     data -> summary output= a
+#     print(data)
+#     return None
+#
+#
+#     a = generate_image_endpoint("a")
+#     b = analyze_perfume_endpoint("a")
+#     response_params = {"image_url": "a", "perfume": "a"}
+#     db.insert(response_params)
+#
+# def get_result(data: List[ChatRequestDto]):
+#
+#     if db:
+#
+#     return json
+
 
 @app.post("/chat/search")
 async def analyze_perfume_endpoint(data: PerfumeRequestDto):
-    result = await qa_service.qacall(data.query)
+    result = await qa_manager.qacall(data.query)
     return result
+
+
+@app.post("/chat/generate-image")
+async def generate_image_endpoint(text: str):
+    manager = Text2ImageManager()
+    result = manager.generate_image_url(text)
+    return {"image_url": result}

@@ -3,7 +3,7 @@ import os
 from openai import OpenAI
 
 
-class Text2ImageConnector:
+class Text2ImageManager:
 
     def __init__(self):
         self.api_key = os.environ.get("OPENAI_API_KEY")
